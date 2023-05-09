@@ -11,10 +11,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut rng = rand::thread_rng();
     let mut writer = csv::Writer::from_path("data.csv")?;
 
-    for _ in 0..BATCH_COUNT {
-        (0..BATCH_SIZE)
-            .map(|_| rng.gen())
-            .for_each(|f: Ficha| writer.serialize(f).unwrap());
+    for i in 0..BATCH_COUNT {
+        (1..=BATCH_SIZE)
+            .map(|j| (j, rng.gen::<Ficha>()))
+            .for_each(|(j, f)| {
+                let nombres = f.nombres.clone();
+                let ith_number = i * BATCH_SIZE + j;
+                if let Err(e) = writer.serialize(f) {
+                    println!("({}) Error serializing {} \n{:?}", ith_number, nombres, e);
+                }
+            });
         writer.flush()?;
     }
 
