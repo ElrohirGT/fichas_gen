@@ -3,6 +3,7 @@ use rand::prelude::*;
 use std::error::Error;
 
 mod model;
+mod random_utils;
 
 fn main() -> Result<(), Box<dyn Error>> {
     const BATCH_SIZE: usize = 500;
