@@ -360,11 +360,8 @@ impl Distribution<Ficha> for Standard {
                 for _ in 1..rng.gen_range(2..4) {
                     set.insert(rng.gen());
                 }
-                set.into_iter()
-                    .map(|c| format!("{:?}", c))
-                    .fold(String::with_capacity(10), |prev, next| {
-                        format!("{}; {}", prev, next)
-                    })
+                let climates: Vec<String> = set.into_iter().map(|c| format!("{:?}", c)).collect();
+                climates.join(", ")
             }
         };
 
