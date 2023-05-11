@@ -7,7 +7,8 @@ mod random_utils;
 
 fn main() -> Result<(), Box<dyn Error>> {
     const BATCH_SIZE: usize = 500;
-    const BATCH_COUNT: usize = 250_000 / BATCH_SIZE;
+    const ITEM_COUNT: usize = 250_000;
+    const BATCH_COUNT: usize = ITEM_COUNT / BATCH_SIZE;
 
     let mut rng = rand::thread_rng();
     let mut writer = csv::Writer::from_path("data.csv")?;
