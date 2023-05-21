@@ -7,13 +7,23 @@ mod random_utils;
 
 fn main() -> Result<(), Box<dyn Error>> {
     const BATCH_SIZE: usize = 500;
-    const ITEM_COUNT: usize = 250_000;
-    const BATCH_COUNT: usize = ITEM_COUNT / BATCH_SIZE;
+
+    println!("{}", "Ingrese la cantidad de fichas a generar: ");
+
+    let stdin = std::io::stdin();
+    let mut item_count = String::with_capacity(4);
+    stdin.read_line(&mut item_count)?;
+
+    let item_count = item_count
+        .trim()
+        .parse::<usize>()
+        .expect("Item count is not a number!");
+    let batch_count: usize = item_count / BATCH_SIZE;
 
     let mut rng = rand::thread_rng();
     let mut writer = csv::Writer::from_path("data.csv")?;
 
-    for i in 0..BATCH_COUNT {
+    for i in 0..batch_count {
         (1..=BATCH_SIZE)
             .map(|j| (j, rng.gen::<Ficha>()))
             .for_each(|(j, f)| {
